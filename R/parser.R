@@ -13,7 +13,8 @@ read_services <- function(file){
 
   services <- list()
   pkg <- ""
-
+  
+  import_files <- getOption("import_files", default=as.null())
 
   doServices <- function(i){
     service_name <- tokens[i+1]
@@ -54,8 +55,11 @@ read_services <- function(file){
     services[[rpc_name]] <<- fn
     return(i)
   }
-
-  readProtoFiles(file)
+  
+  if(is.null(import_files))
+    readProtoFiles2(file)
+  else
+    readProtoFiles2(file, protoPath=import_files)
 
   lines <- readLines(file)
 
